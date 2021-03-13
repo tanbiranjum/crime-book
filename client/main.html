@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        #customers {
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        #customers td,
+        #customers th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #customers tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        #customers tr:hover {
+            background-color: #ddd;
+        }
+
+        #customers th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .input-box {
+            display: flex;
+        }
+        input {
+            width: 90%;
+            height: 50px;
+        }
+        button {
+            width: 10%;
+        }
+    </style>
+</head>
+
+<body>
+<div class="input-box">
+    <input class="input" type="text">
+    <button>Search</button>
+</div>
+    <table id="customers">
+        <tr>
+            <th>Domain</th>
+            <th>Information</th>
+        </tr>
+    </table>
+
+</body>
+
+</html>
+
+
+<script>
+    const search = document.querySelector('.input')
+    const button = document.querySelector("button")
+    const table = document.querySelector("#customers")
+    let str = ""
+
+    button.addEventListener('click', ()=> {
+        table.innerHTML = ""
+        //console.log(search.value)
+        const url = 'http://localhost:3000/api/v1/case/' + search.value
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                const result = Object.entries(data.data.case)
+                result.forEach((key) => {
+                    str = str + `<tr>
+                        <td>${key[0]}</td>
+                        <td>${key[1]}</td>
+                    </tr>`
+                });
+                table.innerHTML = str
+            });
+    })
+</script>
