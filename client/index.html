@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: black;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        /* Add padding to containers */
+        .container {
+            padding: 16px;
+            background-color: white;
+        }
+
+        /* Full-width input fields */
+        input[type=text],
+        input[type=password] {
+            width: 100%;
+            padding: 15px;
+            margin: 5px 0 22px 0;
+            display: inline-block;
+            border: none;
+            background: #f1f1f1;
+        }
+
+        input[type=text]:focus,
+        input[type=password]:focus {
+            background-color: #ddd;
+            outline: none;
+        }
+
+        /* Overwrite default styles of hr */
+        hr {
+            border: 1px solid #f1f1f1;
+            margin-bottom: 25px;
+        }
+
+        /* Set a style for the submit button */
+        .registerbtn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 16px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            opacity: 0.9;
+        }
+
+        .registerbtn:hover {
+            opacity: 1;
+        }
+
+        /* Add a blue text color to links */
+        a {
+            color: dodgerblue;
+        }
+
+        /* Set a grey background color and center the text of the "sign in" section */
+        .signin {
+            background-color: #f1f1f1;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <form>
+        <div class="container">
+            <h1>Register a case</h1>
+            <p>Please fill in this form to register a case.</p>
+            <hr>
+
+            <label for="text"><b>Name</b></label>
+            <input type="text" placeholder="Enter Name" name="name" id="name" required>
+
+            <label for="contact"><b>Mobile</b></label>
+            <input type="text" placeholder="Enter number" name="number" id="number" required>
+
+            <label for="nid"><b>NID number</b></label>
+            <input type="text" placeholder="Enter NID" name="nid" id="nid" required>
+
+            <label for="fb_numeric"><b>Facebook numeric id</b></label>
+            <input type="text" placeholder="Enter Facebook numeric id" name="fb_numeric" id="numeric" required>
+
+            <label for="address"><b>Address</b></label>
+            <input type="text" placeholder="Enter address" name="address" id="address" required>
+
+            <label for="permanent_address"><b>Parmanent address</b></label>
+            <input type="text" placeholder="Enter permanent address" name="parmanent_address" id="paddress" required>
+
+            <label for="story"><b>Story</b></label>
+            <input type="text" placeholder="Enter stroy" name="story" id="story" required>
+
+            <hr>
+
+            <button type="submit" class="registerbtn">Register</button>
+        </div>
+
+        <div class="container signin">
+            <p>Already have an account? <a href="#">Sign in</a>.</p>
+        </div>
+    </form>
+
+</body>
+
+</html>
+
+<script type="text/javascript">
+    const container = document.querySelector(".container");
+
+    async function postData(url = '', data = {}) {
+            // Default options are marked with *
+            const response = await fetch(url, {
+                method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                mode: 'cors', // no-cors, *cors, same-origin
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: 'same-origin', // include, *same-origin, omit
+                headers: {
+                    'Content-Type': 'application/json'
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                redirect: 'follow', // manual, *follow, error
+                referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+                body: JSON.stringify(data) // body data type must match "Content-Type" header
+            });
+            return response.json(); // parses JSON response into native JavaScript objects
+        }
+
+    container.querySelector(".registerbtn").addEventListener("click", (e)=> {
+        e.preventDefault();
+        const data = {
+            "name": container.querySelector("#name").value,
+            "contact": container.querySelector("#number").value,
+            "nid": container.querySelector("#nid").value,
+            "FbNumericId": container.querySelector("#numeric").value,
+            "address": container.querySelector("#address").value,
+            "permanentAddress": container.querySelector("#paddress").value,
+            "story": container.querySelector("#story").value
+        }
+        postData('http://localhost:3000/api/v1/case', data)
+            .then(data => {
+                console.log(data); // JSON data parsed by `data.json()` call
+            });
+    })
+
+</script>
