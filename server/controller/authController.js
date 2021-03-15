@@ -13,7 +13,9 @@ exports.signIn = async (req, res, next) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email }).select("+password");
   const correct = await User.correctPassword(password, user.password);
-  /**
-   * TODO: This module needs to be implemented.
-   */
+  if(correct) {
+    res.status(200).json({
+      status: "successs"
+    })
+  }
 };

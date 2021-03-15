@@ -12,9 +12,7 @@ const schema = new Schema({
   passwordConfirm: String,
 });
 
-const User = new mongoose.Model("User", schema);
-
-User.pre("pre", async function (next) {
+schema.pre("save", async function (next) {
   if (!this.isModified("password")) {
     return next();
   }
@@ -23,13 +21,15 @@ User.pre("pre", async function (next) {
   next();
 });
 
-User.methods.correctPassword = async function (
+
+schema.methods.correctPassword = async function (
   candidatePassword,
   userPassword
 ) {
   return await bcrypt.compare(candidatePassword, userPassword);
 };
 
+const User = new mongoose.model("User", schema);
 module.exports = User;
 
 /*
