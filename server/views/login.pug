@@ -41,15 +41,18 @@ head
     }
 center
   h1  Enter your username and password
-form
+form(method="POST")
   .container
-    label Username :
-    input(type='text' placeholder='Enter Username' name='username' required='')
+    label Email :
+    input(type='text' placeholder='Enter Username' name='username' required='' class='email')
     label Password :
-    input(type='password' placeholder='Enter Password' name='password' required='')
+    input(type='password' placeholder='Enter Password' name='password' required='' class='password')
     button(type='submit') Login
     input(type='checkbox' checked='checked')
     |  Remember me
     button.cancelbtn(type='button')  Cancel
     |             Forgot
     a(href='#')  password?
+
+script(src='https://unpkg.com/axios/dist/axios.min.js')
+script(src='/js/login.js')
